@@ -1,6 +1,6 @@
 <template>
   <div class='home-container'>
-    <van-nav-bar class="page-nav-bar" title="登录" >
+    <van-nav-bar class="page-nav-bar" fixed title="登录" >
       <van-button
       class="search-btn"
       slot="title"
@@ -13,39 +13,78 @@
     </van-nav-bar>
 
     <van-tabs class="channel-tabs" v-model="active" animated swipeable>
-      <van-tab title="标签 1">内容 1</van-tab>
-      <van-tab title="标签 2">内容 2</van-tab>
-      <van-tab title="标签 3">内容 3</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-      <van-tab title="标签 5">内容 5</van-tab>
-      <van-tab title="标签 6">内容 6</van-tab>
+      <van-tab :title="channel.name" v-for="channel in channels" :key="channel.id">
+          <!--子组件注册-->
+        <article-list :channel="channel" />
+      </van-tab>
       <div class="placeholder" slot="nav-right"></div>
-      <div slot="nav-right" class="hamburger-btn">
+      <div slot="nav-right" class="hamburger-btn" @click="isChennelEditShow = true">
         <i class="hklive hklive-gengduo"></i>
       </div>
     </van-tabs>
 
+    <!-- 频道编辑弹出层 -->
+      <van-popup
+      v-model="isChennelEditShow"
+      closeable
+      position="bottom"
+      close-icon-position="top-left"
+      :style="{ height: '100%' }"
+      >
+      <channel-edit />
+      </van-popup>
+    <!-- 频道编辑弹出层 -->
   </div>
 </template>
 <script>
+import ArticleList from './components/article-list.vue'
+import ChannelEdit from './components/channel-edit.vue'
+
+const UserChannels = [
+  { name: 'c++', id: 0 },
+  { name: 'Java', id: 1 },
+  { name: 'c#', id: 2 },
+  { name: 'Mysql', id: 3 },
+  { name: 'jQuery', id: 4 },
+  { name: 'c', id: 5 },
+  { name: 'Vue', id: 6 }
+]
 export default {
   name: 'HomeIndex',
-  components: {},
+  components: {
+    ArticleList,
+    ChannelEdit
+  },
   props: {},
   data () {
     return {
-      active: 0
+      active: 0,
+      channels: [],
+      isChennelEditShow: false
     }
   },
-  computed: {},
+  computed: {
+  },
   watch: {},
-  created () {},
+  created () {
+    this.loadChannels()
+  },
   mounted () {},
-  methods: {}
+  methods: {
+    async loadChannels () {
+      try {
+        this.channels = UserChannels
+      } catch (err) {
+        this.$toast('获取频道失败！')
+      }
+    }
+  }
 }
 </script>
 <style scoped lang='less'>
   .home-container {
+    padding-top: 178px;
+    padding-bottom: 100px;
     /deep/ .van-nav-bar__title {
       max-width: unset;
     }
@@ -63,6 +102,11 @@ export default {
     /deep/ .channel-tabs {
       .van-tabs__wrap {
         height: 82px;
+        position: fixed;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        top: 92px;
       }
       .van-tab {
         border-right: 1px solid #edeff3;

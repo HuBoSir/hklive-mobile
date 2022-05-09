@@ -3,10 +3,10 @@
  */
 import request from '@/utils/request'
 
+//  登录校验接口
 export const login = data => {
   return request({
     method: 'GET',
-    //  登录校验接口
     url: '/',
     data
   })
@@ -16,7 +16,14 @@ export const login = data => {
 export const getUserInfo = () => {
   return request({
     method: 'GET',
-    //  登录校验接口
+    url: '/'
+  })
+}
+
+//  获取频道列表
+export const getUserChannels = () => {
+  return request({
+    method: 'GET',
     url: '/'
   })
 }
