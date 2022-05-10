@@ -8,12 +8,13 @@
       size="small"
       round
       icon="search"
+      to="/search"
       >搜索
       </van-button>
     </van-nav-bar>
 
     <van-tabs class="channel-tabs" v-model="active" animated swipeable>
-      <van-tab :title="channel.name" v-for="channel in channels" :key="channel.id">
+      <van-tab :title="channel.name" v-for="channel in UserChannels" :key="channel.id">
           <!--子组件注册-->
         <article-list :channel="channel" />
       </van-tab>
@@ -31,7 +32,12 @@
       close-icon-position="top-left"
       :style="{ height: '100%' }"
       >
-      <channel-edit />
+      <channel-edit
+      @delete-channel="onDeleteChannel"
+      @insert-channel="onInsertChannel"
+      @update-active="onUpdateActive"
+      :active="active"
+      :my-channels="UserChannels" />
       </van-popup>
     <!-- 频道编辑弹出层 -->
   </div>
@@ -39,16 +45,11 @@
 <script>
 import ArticleList from './components/article-list.vue'
 import ChannelEdit from './components/channel-edit.vue'
+import { mapState } from 'vuex'
+import { setItem, getItem } from '@/utils/stroage'
 
-const UserChannels = [
-  { name: 'c++', id: 0 },
-  { name: 'Java', id: 1 },
-  { name: 'c#', id: 2 },
-  { name: 'Mysql', id: 3 },
-  { name: 'jQuery', id: 4 },
-  { name: 'c', id: 5 },
-  { name: 'Vue', id: 6 }
-]
+const HKLIVE_CHANNELS = 'HKLIVE_CHANNELS'
+
 export default {
   name: 'HomeIndex',
   components: {
@@ -59,11 +60,12 @@ export default {
   data () {
     return {
       active: 0,
-      channels: [],
-      isChennelEditShow: false
+      isChennelEditShow: false,
+      UserChannels: []
     }
   },
   computed: {
+    ...mapState(['user'])
   },
   watch: {},
   created () {
@@ -72,11 +74,45 @@ export default {
   mounted () {},
   methods: {
     async loadChannels () {
-      try {
-        this.channels = UserChannels
-      } catch (err) {
-        this.$toast('获取频道失败！')
+      // try {
+      //   this.channels = this.UserChannels
+      // } catch (err) {
+      //   this.$toast('获取频道失败！')
+      // }
+      if (!getItem(HKLIVE_CHANNELS)) {
+        this.UserChannels = [
+          { name: '推荐', id: 0 },
+          { name: 'Java', id: 1 },
+          { name: 'Web', id: 2 },
+          { name: 'Vue', id: 3 },
+          { name: 'Jquery', id: 4 },
+          { name: 'Mysql', id: 5 },
+          { name: 'C#', id: 6 }
+        ]
+      } else {
+        this.UserChannels = getItem(HKLIVE_CHANNELS)
       }
+    },
+    onUpdateActive (index) {
+      this.active = index
+      this.isChennelEditShow = false
+    },
+    onInsertChannel (channel) {
+      if (this.user) {
+        //  已经登录  存储放到线上
+      } else {
+        //  未登录  存储在本地存储
+      }
+      //  等待后台数据库接口  暂且全部使用本地存储
+      this.UserChannels.push(channel)
+      setItem(HKLIVE_CHANNELS, this.UserChannels)
+    },
+    onDeleteChannel (index) {
+      if (index <= this.active) {
+        this.active -= 1
+      }
+      this.UserChannels.splice(index, 1)
+      setItem(HKLIVE_CHANNELS, this.UserChannels)
     }
   }
 }

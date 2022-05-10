@@ -92,13 +92,24 @@ export default {
       })
     },
     async loadUserInfo () {
-      this.userInfo = {
-        name: 'Admin',
-        photo: 'https://img01.yzcdn.cn/vant/cat.jpeg',
-        art_count: 11869,
-        follow_count: 12,
-        fans_count: 168874,
-        like_count: 3774699
+      if (this.user.un === 'HK-stu-001') {
+        this.userInfo = {
+          name: 'Admin',
+          photo: 'https://img01.yzcdn.cn/vant/cat.jpeg',
+          art_count: 11869,
+          follow_count: 12,
+          fans_count: 168874,
+          like_count: 3774699
+        }
+      } else if (this.user.un === 'HK-stu-002') {
+        this.userInfo = {
+          name: '辜洁',
+          photo: 'https://img01.yzcdn.cn/vant/cat.jpeg',
+          art_count: 0,
+          follow_count: 0,
+          fans_count: 0,
+          like_count: 0
+        }
       }
     }
   }

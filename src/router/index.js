@@ -15,7 +15,6 @@ const routes = [
     redirect: '/home',
     children: [
       {
-        // 留空 ‘默认子路由’  只能有一个
         path: '/home',
         name: 'home',
         component: () => import('@/views/home')
@@ -33,6 +32,10 @@ const routes = [
         component: () => import('@/views/my')
       }
     ]
+  }, {
+    path: '/search',
+    name: 'search',
+    component: () => import('@/views/search')
   }
 ]
 

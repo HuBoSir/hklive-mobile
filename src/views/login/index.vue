@@ -43,6 +43,8 @@ import { Toast } from 'vant'
 
 const un = 'HK-stu-001'
 const pw = '123'
+const gjun = 'HK-stu-002'
+const gjpw = '123'
 const data = {
   token: 'OX666',
   refresh_token: 'OX999'
@@ -97,7 +99,8 @@ export default {
       })
 
       setTimeout(() => {
-        if (user.username === un && user.password === pw) {
+        if ((user.username === un && user.password === pw) || (user.username === gjun && user.password === gjpw)) {
+          data.un = user.username
           this.$store.commit('setUser', data)
           Toast.success('登陆成功')
 

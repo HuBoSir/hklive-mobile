@@ -81,7 +81,7 @@ export default {
       try {
         this.list.push(...results)
         this.loading = false
-        if (this.list.length >= 45) {
+        if (this.list.length >= 30) {
           this.finished = true
         }
       } catch (err) {
@@ -92,10 +92,10 @@ export default {
     //  下拉刷新时调用该函数
     async onRefresh () {
       try {
-        setTimeout(() => {
-          this.list.unshift(...results)
-          this.isreFreshLoading = false
-        }, 500)
+        //  删除原有的数据  请求新的数据
+        this.list.splice(0)
+        this.list.push(...results)
+        this.isreFreshLoading = false
         this.refreshSuccessText = `刷新成功！ 更新了${results.length}条数据`
       } catch (err) {
         this.refreshSuccessText = '刷新失败...'
@@ -108,7 +108,16 @@ export default {
 <style lang='less'>
 //  让每一个组件 都有自己的高度  不再参照body 相互不影响
   .aricle-list{
-    height: 85vh;
     overflow-y: auto;
+  }
+  @media screen and (max-height:550px) {
+    .aricle-list {
+      height: 79vh;
+    }
+  }
+  @media screen and (min-height:581px) {
+    .aricle-list {
+      height: 82vh;
+    }
   }
 </style>
