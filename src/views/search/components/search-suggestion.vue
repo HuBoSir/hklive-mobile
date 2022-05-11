@@ -1,22 +1,31 @@
 <template>
   <div class='search-suggestion'>
     <van-cell
-    :title="item.title"
-    v-for="item in Suggestions"
-    :key="item.id" icon="search"
-    />
+    v-for="(text, index) in Suggestions"
+    :key="index"
+    icon="search"
+    @click="$emit('search', text)"
+    >
+      <div slot="title" v-html="highlight(text)"></div>
+    </van-cell>
   </div>
 </template>
 <script>
 import { debounce } from 'lodash'
 
 const data = [
-  { title: '胡博勇闯女厕所🚺', id: 0 },
-  { title: '郭家宝勇闯女厕所🚺', id: 1 },
-  { title: '辜洁勇闯女厕所🚺', id: 2 },
-  { title: '赫景程勇闯女厕所🚺', id: 3 },
-  { title: '冯志军勇闯女厕所🚺', id: 4 },
-  { title: '胡景豪勇闯女厕所🚺', id: 5 }
+  '做案细节',
+  '甄子丹',
+  '东北',
+  '美女主播',
+  '击毙',
+  '王思聪',
+  '老虎',
+  '亿万富翁',
+  '扫地',
+  '大爷',
+  'java',
+  '成龙'
 ]
 
 export default {
@@ -52,12 +61,22 @@ export default {
   methods: {
     loadSearchSuggestions  (value) {
       this.Suggestions = data.filter(item => {
-        return item.title.includes(value)
+        return item.includes(value)
       })
+    },
+
+    highlight (text) {
+      //  动态创建正则表达式构造函数
+      const reg = new RegExp(this.searchText, 'gi')
+      return text.replace(reg, `<span class="active">${this.searchText}</span>`)
     }
   }
 }
 </script>
-<style lang='less'>
-
+<style scoped lang='less'>
+.search-suggestion {
+  /deep/ span.active {
+    color: #3296fa !important;
+  }
+}
 </style>

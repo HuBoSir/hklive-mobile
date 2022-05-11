@@ -1,6 +1,12 @@
 <template>
   <van-cell
     class="article-item"
+    :to="{
+      name: 'article',
+      params: {
+        articleId: article.aut_id
+      }
+    }"
   >
     <div slot="title" class="title van-multi-ellipsis--l2">{{ '你正在浏览'+channel.name+'数据, '+article.title }}</div>
     <div slot="label">

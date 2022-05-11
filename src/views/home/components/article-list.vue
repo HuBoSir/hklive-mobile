@@ -20,11 +20,6 @@
         :article="article"
         :channel="channel"
         />
-        <!-- <van-cell
-        v-for="(article, index) in list"
-        :key="index"
-        :title="'你现在浏览的是'+channel.name+'数据,'+article.title"
-        /> -->
       </van-list>
     </van-pull-refresh>
   </div>
@@ -32,21 +27,21 @@
 <script>
 import ArticleItem from '@/compontens/atricle-item'
 const results = [
-  { title: '同样的数据我只写一次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 1, arr: [require('@/assets/01.jpg')] } },
+  { title: '同样的数据我只写一次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 0, pubdate: new Date(), comm_count: 1233, cover: { type: 1, arr: [require('@/assets/01.jpg')] } },
   { title: '同样的数据我只写两次,我有三行，不要无视我,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 3, arr: [require('@/assets/02.jpg'), require('@/assets/06.jpg'), require('@/assets/07.jpg')] } },
-  { title: '同样的数据我只写三次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 0, arr: [] } },
-  { title: '同样的数据我只写四次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 3, arr: [require('@/assets/03.jpg'), require('@/assets/05.jpg'), require('@/assets/04.jpg')] } },
-  { title: '同样的数据我只写五次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 1, arr: [require('@/assets/06.jpg')] } },
-  { title: '同样的数据我只写六次,我有三行，不要无视我,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 3, arr: [require('@/assets/01.jpg'), require('@/assets/07.jpg'), require('@/assets/06.jpg')] } },
-  { title: '同样的数据我只写七次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 1, arr: [require('@/assets/03.jpg')] } },
-  { title: '同样的数据我只写八次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 3, arr: [require('@/assets/02.jpg'), require('@/assets/01.jpg'), require('@/assets/04.jpg')] } },
-  { title: '同样的数据我只写九次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 0, arr: [] } },
-  { title: '同样的数据我只写十次,我有三行，不要无视我,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 1, arr: [require('@/assets/01.jpg')] } },
-  { title: '同样的数据我只写十一次,我有三行，不要无视我,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 3, arr: [require('@/assets/06.jpg'), require('@/assets/02.jpg'), require('@/assets/05.jpg')] } },
-  { title: '同样的数据我只写十二次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 1, arr: [require('@/assets/07.jpg')] } },
-  { title: '同样的数据我只写十三次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 1, arr: [require('@/assets/01.jpg')] } },
-  { title: '同样的数据我只写十四次,我有三行，不要无视我,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 3, arr: [require('@/assets/06.jpg'), require('@/assets/07.jpg'), require('@/assets/01.jpg')] } },
-  { title: '同样的数据我只写十五次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 1, pubdate: new Date(), comm_count: 1233, cover: { type: 1, arr: [require('@/assets/03.jpg')] } }
+  { title: '同样的数据我只写三次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 2, pubdate: new Date(), comm_count: 1233, cover: { type: 0, arr: [] } },
+  { title: '同样的数据我只写四次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 3, pubdate: new Date(), comm_count: 1233, cover: { type: 3, arr: [require('@/assets/03.jpg'), require('@/assets/05.jpg'), require('@/assets/04.jpg')] } },
+  { title: '同样的数据我只写五次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 4, pubdate: new Date(), comm_count: 1233, cover: { type: 1, arr: [require('@/assets/06.jpg')] } },
+  { title: '同样的数据我只写六次,我有三行，不要无视我,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 5, pubdate: new Date(), comm_count: 1233, cover: { type: 3, arr: [require('@/assets/01.jpg'), require('@/assets/07.jpg'), require('@/assets/06.jpg')] } },
+  { title: '同样的数据我只写七次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 6, pubdate: new Date(), comm_count: 1233, cover: { type: 1, arr: [require('@/assets/03.jpg')] } },
+  { title: '同样的数据我只写八次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 7, pubdate: new Date(), comm_count: 1233, cover: { type: 3, arr: [require('@/assets/02.jpg'), require('@/assets/01.jpg'), require('@/assets/04.jpg')] } },
+  { title: '同样的数据我只写九次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 8, pubdate: new Date(), comm_count: 1233, cover: { type: 0, arr: [] } },
+  { title: '同样的数据我只写十次,我有三行，不要无视我,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 9, pubdate: new Date(), comm_count: 1233, cover: { type: 1, arr: [require('@/assets/01.jpg')] } },
+  { title: '同样的数据我只写十一次,我有三行，不要无视我,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 10, pubdate: new Date(), comm_count: 1233, cover: { type: 3, arr: [require('@/assets/06.jpg'), require('@/assets/02.jpg'), require('@/assets/05.jpg')] } },
+  { title: '同样的数据我只写十二次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 11, pubdate: new Date(), comm_count: 1233, cover: { type: 1, arr: [require('@/assets/07.jpg')] } },
+  { title: '同样的数据我只写十三次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 12, pubdate: new Date(), comm_count: 1233, cover: { type: 1, arr: [require('@/assets/01.jpg')] } },
+  { title: '同样的数据我只写十四次,我有三行，不要无视我,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 13, pubdate: new Date(), comm_count: 1233, cover: { type: 3, arr: [require('@/assets/06.jpg'), require('@/assets/07.jpg'), require('@/assets/01.jpg')] } },
+  { title: '同样的数据我只写十五次,加一段话显得我内容很多', aut_name: '出来混讲视力', aut_id: 14, pubdate: new Date(), comm_count: 1233, cover: { type: 1, arr: [require('@/assets/03.jpg')] } }
 ]
 
 export default {

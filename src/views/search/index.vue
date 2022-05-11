@@ -1,6 +1,6 @@
 <template>
   <div class='search-container'>
-    <form action="/">
+    <form action="/" class="search-form">
       <van-search
         v-model="searchText"
         show-action
@@ -12,17 +12,30 @@
       />
   </form>
     <!-- 搜索结果 -->
-  <search-result v-if="isResultShow" />
+  <search-result v-if="isResultShow"
+  :search-text="searchText"
+  />
     <!-- 联想建议 -->
-  <search-suggestion :search-text="searchText" v-else-if="searchText" />
+  <search-suggestion
+  :search-text="searchText"
+  v-else-if="searchText"
+  @search="onSearch"
+  />
   <!-- 搜索历史纪录 -->
-  <search-history v-else />
+  <search-history v-else
+  @search="onSearch"
+  />
   </div>
 </template>
 <script>
 import SearchHistory from './components/search-history.vue'
 import SearchSuggestion from './components/search-suggestion.vue'
 import SearchResult from './components/search-result.vue'
+import { setItem, getItem } from '@/utils/stroage'
+
+if (!getItem('USER_HISTORY')) {
+  setItem('USER_HISTORY', [])
+}
 
 export default {
   name: 'SearchIndex',
@@ -44,6 +57,12 @@ export default {
   mounted () {},
   methods: {
     onSearch (val) {
+      console.log('我点')
+      const arr = getItem('USER_HISTORY')
+      arr.push(val)
+      setItem('USER_HISTORY', arr)
+      //  追加到本地存储
+      this.searchText = val
       this.isResultShow = true
     },
     onCancel () {
@@ -54,8 +73,16 @@ export default {
 </script>
 <style lang='less'>
   .search-container {
+    padding-top: 108px;
     .van-search__action {
       color: #fff;
+    }
+    .search-form {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1;
     }
   }
 </style>
