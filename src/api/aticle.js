@@ -18,3 +18,20 @@ export const getArticleById = articleId => {
     url: `'/xxx/'${articleId}`
   })
 }
+
+//  收藏文章
+export const addCollect = target => {
+  return request({
+    method: 'POST',
+    url: '/',
+    target
+  })
+}
+
+//  取消收藏文章
+export const deleteCollect = target => {
+  return request({
+    method: 'POST',
+    url: `/xxx/${target}`
+  })
+}

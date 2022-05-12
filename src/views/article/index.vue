@@ -36,13 +36,16 @@
           />
           <div slot="title" class="user-name">{{ article.aut_name }}</div>
           <div slot="label" class="publish-date">{{ article.pubdate | relativeTime }}</div>
-          <van-button
-          v-if="arctive.is_followed"
-          icon="plus"
-          class="follow-btn"
-          round
-          type="info"
-          >关注</van-button>
+        <follow-user
+          v-model="article.is_followed"
+        >
+        <!--
+          v-model  默认接收一个自定义属性 :value 以及 监听 @input 事件
+          :is-followed="article.is_followed"
+          @updata-is_floowed="article.is_followed = $event"
+        -->
+        <!-- 在模板中  $ event 就是事件参数 -->
+        </follow-user>
         </van-cell>
         <!-- /用户信息 -->
 
@@ -54,6 +57,10 @@
         >
         </div>
         <van-divider>正文结束</van-divider>
+        <comment-list
+        :source="article.aut_id"
+        @onload-success = "totalCommentCount = $event"
+        />
         <!-- 文章评论列表 -->
         <!-- /文章评论列表 -->
         <!-- 底部区域 -->
@@ -70,6 +77,11 @@
             name="comment-o"
             :info="totalCommentCount"
           />
+          <collect-article
+          class="btn-item"
+          v-model="article.is_collected"
+          />
+          <like-article v-model="article.like" />
           <van-icon name="share" color="#777777"></van-icon>
         </div>
         <!-- /底部区域 -->
@@ -131,9 +143,11 @@
 
 <script>
 import { ImagePreview } from 'vant'
-let sgh = 'sfuhgfkwehfkie'
-sgh = 'shduwehfiowehaeh'
-console.log(sgh)
+import followUser from '@/compontens/follow-user'
+import CollectArticle from '@/compontens/collect-article'
+import LikeArticle from '@/compontens/like-article'
+import CommentList from './components/comment-list.vue'
+
 const articleDate = {
   title: '同样的数据我只写一次,加一段话显得我内容很多',
   aut_name: '出来混讲视力',
@@ -142,11 +156,18 @@ const articleDate = {
   comm_count: 1233,
   aut_photo: require('@/assets/01.jpg'),
   content: '<div><p>就假数据而言，我觉得我这个<b>假数据</b>造的特别有水准</div><div><img src="https://img01.yzcdn.cn/vant/apple-1.jpg" /><img src="https://img01.yzcdn.cn/vant/apple-2.jpg" /></div><div><p>字数凑得多，样式写的美观，可惜上线后这么完美的一条假数据就要再也见不到了，嘤嘤嘤</p></div>',
-  is_followed: false
+  is_followed: false, // 是否关注
+  is_collected: false, // 是否收藏
+  like: false // 是否点赞
 }
 export default {
   name: 'ArticleIndex',
-  components: {},
+  components: {
+    followUser,
+    CollectArticle,
+    LikeArticle,
+    CommentList
+  },
   props: {
     articleId: {
       type: [Number, String, Object],

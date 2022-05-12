@@ -57,7 +57,6 @@ export default {
   mounted () {},
   methods: {
     onSearch (val) {
-      console.log('我点')
       const arr = getItem('USER_HISTORY')
       arr.push(val)
       setItem('USER_HISTORY', arr)
