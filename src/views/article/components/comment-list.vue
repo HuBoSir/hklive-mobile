@@ -9,6 +9,9 @@
   v-for="(item, index) in list"
   :key="index"
   :comment="item"
+  @addLike="$event == 1 ? item.like_count-- : item.like_count++"
+  @updataLiking="item.is_liking = $event"
+  @reply-click="$emit('reply-click', $event)"
   />
 </van-list>
 </template>
@@ -17,15 +20,6 @@
 import CommentItem from './comment-item.vue'
 
 //  将文章的评论和回复评论从一个请求拿到数据
-const totalCommentCount = 15
-const commentData = [
-  { aut_id: 0, pubdate: new Date(), content: '我是一条若隐若现的评论', aut_name: '猪猪侠', aut_photo: 'https://img01.yzcdn.cn/vant/cat.jpeg', like_count: 12, reply_count: 7, is_liking: false },
-  { aut_id: 1, pubdate: new Date(), content: '我是一条若隐若现的评论', aut_name: '猪猪侠', aut_photo: 'https://img01.yzcdn.cn/vant/cat.jpeg', like_count: 12, reply_count: 7, is_liking: false },
-  { aut_id: 2, pubdate: new Date(), content: '我是一条若隐若现的评论', aut_name: '猪猪侠', aut_photo: 'https://img01.yzcdn.cn/vant/cat.jpeg', like_count: 12, reply_count: 7, is_liking: false },
-  { aut_id: 3, pubdate: new Date(), content: '我是一条若隐若现的评论', aut_name: '猪猪侠', aut_photo: 'https://img01.yzcdn.cn/vant/cat.jpeg', like_count: 12, reply_count: 7, is_liking: false },
-  { aut_id: 4, pubdate: new Date(), content: '我是一条若隐若现的评论', aut_name: '猪猪侠', aut_photo: 'https://img01.yzcdn.cn/vant/cat.jpeg', like_count: 12, reply_count: 7, is_liking: false },
-  { aut_id: 5, pubdate: new Date(), content: '我是一条若隐若现的评论', aut_name: '猪猪侠', aut_photo: 'https://img01.yzcdn.cn/vant/cat.jpeg', like_count: 12, reply_count: 7, is_liking: false }
-]
 
 export default {
   name: 'commentList',
@@ -33,14 +27,14 @@ export default {
     CommentItem
   },
   props: {
-    source: {
-      type: [Number, String, Object],
-      required: true
+    commentData: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
     return {
-      list: [],
+      list: this.commentData,
       loading: false,
       finished: false
     }
@@ -54,8 +48,7 @@ export default {
   methods: {
     onLoad () {
       this.loading = false
-      this.list.push(...commentData)
-      this.$emit('onload-success', totalCommentCount)
+      this.$emit('onload-success', this.list.length)
       if (this.list.length >= 15) {
         this.finished = true
       }

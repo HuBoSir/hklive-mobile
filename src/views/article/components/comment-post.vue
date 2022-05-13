@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import { addComment } from '@/api/comment'
 
 export default {
   name: 'CommentPost',
@@ -28,12 +27,6 @@ export default {
     articleId: {
       type: [Number, String, Object],
       default: null
-    }
-  },
-  props: {
-    target: {
-      type: [Number, String, Object],
-      required: true
     }
   },
   data () {
@@ -53,23 +46,19 @@ export default {
         duration: 0 // 持续时间，默认 2000，0 表示持续展示不关闭
       })
 
-      try {
-        const { data } = await addComment({
-          target: this.target.toString(), // 评论的目标id（评论文章即为文章id，对评论进行回复则为评论id）
-          content: this.message, // 评论内容
-          art_id: this.articleId ? this.articleId.toString() : this.articleId // 文章id，对评论内容发表回复时，需要传递此参数，表明所属文章id。对文章进行评论，不要传此参数。
-        })
+      this.$emit('post-success', {
+        aut_id: 200,
+        pubdate: new Date(),
+        content: this.message,
+        aut_name: '用户',
+        aut_photo: 'https://img01.yzcdn.cn/vant/cat.jpeg',
+        like_count: 0,
+        reply_count: 0,
+        is_liking: false
+      })
+      this.message = ''
 
-        // 关闭弹出层
-        // 将发布内容显示到列表顶部
-        // 清空文本框
-        this.message = ''
-        this.$emit('post-success', data.data)
-
-        this.$toast.success('发布成功')
-      } catch (err) {
-        this.$toast.fail('发布失败')
-      }
+      this.$toast.success('发布成功')
     }
   }
 }

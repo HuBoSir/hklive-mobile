@@ -18,7 +18,7 @@
       <!-- 评论的回复列表 -->
       <van-cell title="全部回复" />
       <comment-list
-        :list="commentList"
+        :commentData="commentList"
         :source="comment.com_id"
         type="c"
       />
@@ -77,14 +77,12 @@ export default {
   mounted () {},
   methods: {
     onPostSuccess (data) {
-      // 更新回复的数量
-      this.comment.reply_count++
-
+      this.$emit('addReplyCount', this.comment.aut_id)
       // 关闭弹层
       this.isPostShow = false
 
       // 将最新回复的内容展示到列表的顶部
-      this.commentList.unshift(data.new_obj)
+      this.commentList.unshift(data)
     }
   }
 }

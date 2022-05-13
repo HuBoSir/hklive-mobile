@@ -4,30 +4,30 @@
       slot="icon"
       class="avatar"
       round
-      :src="commentDate.aut_photo"
+      :src="comment.aut_photo"
     />
     <div slot="title" class="title-wrap">
-      <div class="user-name">{{ commentDate.aut_name }}</div>
+      <div class="user-name">{{ comment.aut_name }}</div>
       <van-button
         class="like-btn"
         :class="{
           liked: comment.is_liking
         }"
-        :icon="commentDate.is_liking ? 'good-job' : 'good-job-o'"
+        :icon="comment.is_liking ? 'good-job' : 'good-job-o'"
         :loading="commentLoading"
         @click="onCommentLike"
-      >{{ commentDate.like_count || '赞' }}</van-button>
+      >{{ comment.like_count || '赞' }}</van-button>
     </div>
 
     <div slot="label">
-      <p class="comment-content">{{ commentDate.content }}</p>
+      <p class="comment-content">{{ comment.content }}</p>
       <div class="bottom-info">
-        <span class="comment-pubdate">{{ commentDate.pubdate | relativeTime() }}</span>
+        <span class="comment-pubdate">{{ comment.pubdate | relativeTime() }}</span>
         <van-button
           class="reply-btn"
           round
-          @click="$emit('reply-click', commentDate)"
-        >回复 {{ commentDate.reply_count }}</van-button>
+          @click="$emit('reply-click', comment)"
+        >回复 {{ comment.reply_count }}</van-button>
       </div>
     </div>
   </van-cell>
@@ -46,8 +46,7 @@ export default {
   },
   data () {
     return {
-      commentLoading: false,
-      commentDate: this.comment
+      commentLoading: false
     }
   },
   computed: {},
@@ -59,13 +58,14 @@ export default {
       this.commentLoading = true
       setTimeout(() => {
         if (this.comment.is_liking) {
-          this.commentDate.like_count--
+          this.$emit('addLike', 1)
           this.$toast('难过的留下一滴眼泪')
         } else {
-          this.commentDate.like_count++
+          this.$emit('addLike', -1)
           this.$toast('谢谢你的赞')
         }
-        this.commentDate.is_liking = !this.commentDate.is_liking
+        console.log(!this.comment.is_liking)
+        this.$emit('updataLiking', !this.comment.is_liking)
         this.commentLoading = false
       }, 500)
     }

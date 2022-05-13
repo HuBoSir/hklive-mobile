@@ -59,7 +59,9 @@
         <van-divider>正文结束</van-divider>
         <comment-list
         :source="article.aut_id"
+        :commentData="commentData"
         @onload-success = "totalCommentCount = $event"
+        @reply-click="onReplyClick"
         />
         <!-- 文章评论列表 -->
         <!-- /文章评论列表 -->
@@ -75,7 +77,6 @@
           <van-icon
             class="comment-icon"
             name="comment-o"
-            :info="totalCommentCount"
           />
           <collect-article
           class="btn-item"
@@ -85,7 +86,6 @@
           <van-icon name="share" color="#777777"></van-icon>
         </div>
         <!-- /底部区域 -->
-
         <!-- 发布评论 -->
         <van-popup
           v-model="isPostShow"
@@ -93,6 +93,7 @@
         >
           <comment-post
             :target="article.art_id"
+            @post-success="postSuccess"
           />
         </van-popup>
         <!-- 发布评论 -->
@@ -135,6 +136,7 @@
         v-if="isReplyShow"
         :comment="currentComment"
         @close="isReplyShow = false"
+        @addReplyCount="addReply"
       />
     </van-popup>
     <!-- /评论回复 -->
@@ -147,6 +149,8 @@ import followUser from '@/compontens/follow-user'
 import CollectArticle from '@/compontens/collect-article'
 import LikeArticle from '@/compontens/like-article'
 import CommentList from './components/comment-list.vue'
+import CommentPost from './components/comment-post.vue'
+import CommentReply from './components/comment-reply.vue'
 
 const articleDate = {
   title: '同样的数据我只写一次,加一段话显得我内容很多',
@@ -166,7 +170,9 @@ export default {
     followUser,
     CollectArticle,
     LikeArticle,
-    CommentList
+    CommentList,
+    CommentPost,
+    CommentReply
   },
   props: {
     articleId: {
@@ -182,7 +188,14 @@ export default {
       followLoading: false,
       totalCommentCount: 0,
       isPostShow: false, // 控制发布评论的显示状态
-      commentList: [], // 评论列表
+      commentData: [
+        { aut_id: 0, pubdate: new Date(), content: '我是一条若隐若现的评论', aut_name: '猪猪侠', aut_photo: 'https://img01.yzcdn.cn/vant/cat.jpeg', like_count: 12, reply_count: 0, is_liking: false },
+        { aut_id: 1, pubdate: new Date(), content: '我是一条若隐若现的评论', aut_name: '猪猪侠', aut_photo: 'https://img01.yzcdn.cn/vant/cat.jpeg', like_count: 12, reply_count: 0, is_liking: false },
+        { aut_id: 2, pubdate: new Date(), content: '我是一条若隐若现的评论', aut_name: '猪猪侠', aut_photo: 'https://img01.yzcdn.cn/vant/cat.jpeg', like_count: 12, reply_count: 0, is_liking: false },
+        { aut_id: 3, pubdate: new Date(), content: '我是一条若隐若现的评论', aut_name: '猪猪侠', aut_photo: 'https://img01.yzcdn.cn/vant/cat.jpeg', like_count: 12, reply_count: 0, is_liking: false },
+        { aut_id: 4, pubdate: new Date(), content: '我是一条若隐若现的评论', aut_name: '猪猪侠', aut_photo: 'https://img01.yzcdn.cn/vant/cat.jpeg', like_count: 12, reply_count: 0, is_liking: false },
+        { aut_id: 5, pubdate: new Date(), content: '我是一条若隐若现的评论', aut_name: '猪猪侠', aut_photo: 'https://img01.yzcdn.cn/vant/cat.jpeg', like_count: 12, reply_count: 0, is_liking: false }
+      ],
       isReplyShow: false,
       currentComment: {} // 当前点击回复的评论项
     }
@@ -216,6 +229,22 @@ export default {
             images,
             startPosition: index
           })
+        }
+      })
+    },
+    postSuccess (data) {
+      this.isPostShow = false
+      this.commentData.unshift(data)
+    },
+    onReplyClick (comment) {
+      this.currentComment = comment
+      // 显示评论回复弹出层
+      this.isReplyShow = true
+    },
+    addReply (userId) {
+      this.commentData.forEach(item => {
+        if (item.aut_id === userId) {
+          item.reply_count++
         }
       })
     }

@@ -44,3 +44,29 @@ export const deleteFollow = target => {
     url: `/???/${target}`
   })
 }
+
+//  获取当前登录用户的个人资料
+export const getUserProfile = target => {
+  return request({
+    method: 'GET',
+    url: '/'
+  })
+}
+
+//  更新用户资料
+export const updataUserProfile = data => {
+  return request({
+    method: 'GET',
+    url: '/',
+    data
+  })
+}
+
+//  更改用户照片资料
+export const updataUserPhoto = data => {
+  return request({
+    method: 'GET',
+    url: '/',
+    data
+  })
+}
